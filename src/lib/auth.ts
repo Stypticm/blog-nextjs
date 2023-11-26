@@ -83,7 +83,7 @@ export const authOptions: AuthOptions = {
   debug: process.env.NODE_ENV === 'development',
   callbacks: {
     jwt: ({ token, user }: { token: JWT; user: User }) => {
-      console.log('JWT callback', { token, user })
+      // console.log('JWT callback', { token, user })
       if (user) {
         const u = user as unknown as any
         return {
@@ -101,7 +101,7 @@ export const authOptions: AuthOptions = {
       session: Session
       token: JWT
     }) => {
-      console.log('Session callback', { session, token })
+      // console.log('Session callback', { session, token })
       return {
         ...session,
         user: {

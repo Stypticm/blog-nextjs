@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import ReactQuillField from './ui/QuillUI'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -10,44 +10,52 @@ import { Button } from '@/components/ui/Button'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
+import { useSession } from 'next-auth/react'
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
+  title: z.string().min(2, {
+    message: 'Title must be at least 2 characters.',
   }),
+  description: z.string().min(10, {
+    message: 'Description must be at least 10 characters.',
+  }),
+  image: z.string().url({
+    message: 'Image must be a valid URL.',
+  })
 })
 
 const CreatePostForm = () => {
   const router = useRouter()
+  const session = useSession()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
+      title: '',
+      description: '',
+      image: '',
     },
   })
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+    form.reset()
+    console.log(values, session.data?.user?.email)
   }
 
   return (
-    <div>
+    <div className='pt-5'>
       <Button
         variant='default'
         size='lg'
         className='m-4'
-        disabled>
+        disabled
+      >
         Create Post
       </Button>
       <Button
@@ -64,16 +72,37 @@ const CreatePostForm = () => {
           className='space-y-8'>
           <FormField
             control={form.control}
-            name='username'
+            name='title'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder='shadcn' {...field} />
+                  <Input placeholder='Enter your title name' {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='description'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <ReactQuillField value={field.value} onChange={field.onChange} />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='image'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Picture</FormLabel>
+                <FormControl>
+                  <Input type='url' placeholder='Enter url your picture' {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

@@ -28,12 +28,14 @@ export default function RootLayout({
     <html lang='en'>
       <body className={cn('bg-gray-200', inter.className)}>
         <Providers>
-          
-            <Navbar />
 
-            {authModal}
-            <div>{children}</div>
-          
+          <div className='sticky top-0 z-50 inset-x-0 h-16'>
+            <Navbar />
+          </div>
+
+          {authModal}
+          <div>{children}</div>
+
         </Providers>
         <Toaster />
       </body>

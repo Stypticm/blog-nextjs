@@ -8,12 +8,25 @@ import {
   DropdownMenuTrigger,
 } from './ui/DropdownMenu'
 import { UserAvatar } from './UserAvatar'
+import { useRouter } from 'next/navigation'
 
 interface UserAccountNavProps {
-  user: any
+  user: {
+    name?: string | null
+    image?: string | null,
+    email?: string | null,
+    role?: string | null
+  }
 }
 
 const UserAccountNav = async ({ user }: UserAccountNavProps) => {
+
+  const router = useRouter()
+
+  const handleAdminPanelClick = () => {
+    router.push('/admin')
+  };
+
 
   return (
     <DropdownMenu>
@@ -36,6 +49,18 @@ const UserAccountNav = async ({ user }: UserAccountNavProps) => {
           }}>
           Sign out
         </DropdownMenuItem>
+        {
+          user.email === 'misha@ya.ru' && (
+            <DropdownMenuItem
+              className='cursor-pointer'
+              onSelect={(event) => {
+                event.preventDefault()
+                handleAdminPanelClick()
+              }}>
+              Admin Panel
+            </DropdownMenuItem>
+          )
+        }
       </DropdownMenuContent>
     </DropdownMenu>
   )
