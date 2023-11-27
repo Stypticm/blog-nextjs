@@ -7,7 +7,6 @@ import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
-import { Label } from './ui/label'
 
 const Auth = () => {
   const router = useRouter()
@@ -20,7 +19,7 @@ const Auth = () => {
     'login' | 'register'
   >('login')
 
-  const toggleVAriant = React.useCallback(() => {
+  const toggleVAriant = useCallback(() => {
     setVariant((currentVariant) =>
       currentVariant === 'login' ? 'register' : 'login'
     )

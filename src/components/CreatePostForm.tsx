@@ -1,7 +1,7 @@
 'use client'
 
 import ReactQuillField from './ui/QuillUI'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/Form'
 import { Input } from '@/components/ui/Input'
-import { useSession } from 'next-auth/react'
+import { useCallback } from 'react'
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -32,7 +32,6 @@ const formSchema = z.object({
 
 const CreatePostForm = () => {
   const router = useRouter()
-  const session = useSession()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,10 +42,21 @@ const CreatePostForm = () => {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    form.reset()
-    console.log(values, session.data?.user?.email)
-  }
+  const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
+    try {
+      await fetch('/api/createpost', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+      form.reset()
+      redirect('/blog')
+    } catch (error) {
+      console.log(error)
+    }
+  }, [form])
 
   return (
     <div className='pt-5'>
