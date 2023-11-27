@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt'
-import { prismadb } from '@/lib/prismadb'
+import clientPromise from '@/lib/mongodb'
 
 export async function POST(req: Request) {
+  const mongodb = await clientPromise
+
   if (req.method !== 'POST') {
     return new Response(
       JSON.stringify({
@@ -12,11 +14,14 @@ export async function POST(req: Request) {
   try {
     const { email, name, password } = await req.json()
 
-    const existingUser = await prismadb.user.findUnique({
-      where: {
-        email,
-      },
-    })
+    const db = await mongodb.db('blog')
+
+    const existingUser = await db.collection("User").findOne(
+      {
+        email
+      }
+    )
+
 
     if (existingUser) {
       return new Response(
@@ -29,15 +34,15 @@ export async function POST(req: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    const user = await prismadb.user.create({
-      data: {
+    const user = await db.collection("User").insertOne(
+      {
         email,
         name,
         hashedPassword,
         image: '',
         emailVerified: new Date(),
-      },
-    })
+      }
+    )
 
     return new Response(
       JSON.stringify({

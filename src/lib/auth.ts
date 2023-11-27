@@ -7,13 +7,19 @@ import {
   User,
   getServerSession,
 } from 'next-auth'
-import { prismadb } from '@/lib/prismadb'
 import { compare } from 'bcrypt'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { JWT } from 'next-auth/jwt'
 
+import clientPromise from '@/lib/mongodb'
+import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
+
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prismadb),
+  adapter: MongoDBAdapter(clientPromise, {
+    collections: {
+      Accounts: 'Account',
+      Users: 'User',
+    },
+  }),
   session: {
     strategy: 'jwt',
   },
@@ -47,15 +53,18 @@ export const authOptions: AuthOptions = {
         },
       },
       async authorize(credentials) {
+        const mongodb = await clientPromise
+        const db = await mongodb.db('blog')
+
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Email and password are required')
         }
 
-        const user = await prismadb.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        })
+        const user = await db.collection("User").findOne(
+          {
+            email: credentials.email
+          }
+        )
 
         if (!user || !user.hashedPassword) {
           throw new Error('Email does not exist')
