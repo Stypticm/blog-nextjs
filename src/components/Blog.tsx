@@ -65,7 +65,7 @@ const Blog = () => {
             </div>
             <div className='self-end'>
               <Button variant='default' size='lg' className='m-4' onClick={() => {
-                router.push(`/blog/${blog.id}`)
+                router.push(`/blog/${blog._id}`)
               }}>
                 Read More
               </Button>
