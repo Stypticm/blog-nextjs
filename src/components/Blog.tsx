@@ -2,21 +2,28 @@
 
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/Button'
-import { getBlogs } from '../../utils/blog_helpers'
+import { Button } from '@components/ui/Button'
+import { getBlogs } from '@utils/blog_helpers'
 import { MessageSquare, ThumbsUp } from 'lucide-react'
+import { Post } from '@utils/types'
 
 
 const Blog = () => {
 
   const router = useRouter()
 
-  const [blogs, setBlogs] = useState([])
+  const [blogs, setBlogs] = useState([] as Post[])
 
   useEffect(() => {
-    getBlogs().then((blogs) => {
-      setBlogs(blogs)
-    })
+    const fetchBlogs = async () => {
+      try {
+        const blogs = await getBlogs() as Post[]
+        setBlogs(blogs as Post[])
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchBlogs()
   }, [])
 
   return (
@@ -27,9 +34,6 @@ const Blog = () => {
         }}>
           Create Post
         </Button>
-        {/* <Button variant='default' size='lg' className='m-4'>
-          Another function
-        </Button> */}
       </div>
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
         {blogs.map((blog: any) => (

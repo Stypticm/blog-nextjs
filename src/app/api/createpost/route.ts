@@ -1,10 +1,13 @@
-import bcrypt from 'bcrypt'
-import clientPromise from '@/lib/mongodb'
+import clientPromise from '@lib/mongodb'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { authOptions } from '@lib/auth'
+import { Post } from '../../../utils/types'
 
 
 export async function POST(req: Request) {
+
+    interface IPost extends Omit<Post, '_id'> { }
+
     const mongodb = await clientPromise
     const session = await getServerSession(authOptions)
     const user = session?.user
@@ -42,9 +45,9 @@ export async function POST(req: Request) {
                 description,
                 image,
                 comments: [],
-                likes: [],
-                author: user?.name,
-                email: user?.email,
+                likes: 0,
+                author: user?.name as string,
+                email: user?.email as string,
                 createdAt: new Date(),
             }
         )

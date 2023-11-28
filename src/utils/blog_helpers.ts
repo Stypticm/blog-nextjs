@@ -1,20 +1,6 @@
-interface IBlog {
-    title: string
-    description: string
-    image: string
-    comments: Comments,
-    likes: number
-    author: string
-}
+import { Post } from './types'
 
-type Comments = [
-    {
-        author: string
-        comment: string
-    }
-]
-
-type Blogs = IBlog[]
+type Blogs = Post[]
 
 export async function getBlogs() {
     try {
@@ -25,7 +11,7 @@ export async function getBlogs() {
             data.posts
         ])
 
-        return blogs
+        return blogs as Blogs
 
     } catch (error) {
         console.log(error)
