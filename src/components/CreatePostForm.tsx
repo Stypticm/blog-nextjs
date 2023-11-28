@@ -1,7 +1,7 @@
 'use client'
 
 import ReactQuillField from './ui/QuillUI'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -52,7 +52,7 @@ const CreatePostForm = () => {
         body: JSON.stringify(values),
       })
       form.reset()
-      redirect('/blog')
+      router.push('/blog')
     } catch (error) {
       console.log(error)
     }

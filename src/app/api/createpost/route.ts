@@ -31,7 +31,7 @@ export async function POST(req: Request) {
             return new Response(
                 JSON.stringify({
                     status: 422,
-                    error: 'Title taken',
+                    error: 'Title used',
                 })
             )
         }
@@ -41,6 +41,8 @@ export async function POST(req: Request) {
                 title,
                 description,
                 image,
+                comments: [],
+                likes: [],
                 author: user?.name,
                 email: user?.email,
                 createdAt: new Date(),

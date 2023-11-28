@@ -79,11 +79,12 @@ export const authOptions: AuthOptions = {
           throw new Error('Incorrect password')
         }
 
+        console.log(user._id.toString())
+
         return {
-          id: user.id,
+          id: user._id.toString(),
           email: user.email,
           name: user.name,
-          randomKey: 'Hey cool',
         }
       },
     }),
@@ -98,7 +99,7 @@ export const authOptions: AuthOptions = {
         return {
           ...token,
           id: user.id,
-          randomKey: u.randomKey,
+          // randomKey: u.randomKey,
         }
       }
       return token
@@ -116,7 +117,7 @@ export const authOptions: AuthOptions = {
         user: {
           ...session.user,
           id: token.id,
-          randomKey: token.randomKey,
+          // randomKey: token.randomKey,
         },
       }
     },

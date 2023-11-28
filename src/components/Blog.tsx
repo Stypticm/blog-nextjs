@@ -1,24 +1,23 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
+import { getBlogs } from '../../utils/blog_helpers'
+import { MessageSquare, ThumbsUp } from 'lucide-react'
 
-async function getBlogs() {
-  const res = await fetch('https://fakestoreapi.com/products?limit=6')
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch data')
-  }
-
-  return res.json()
-}
-
-const Blog = async () => {
+const Blog = () => {
 
   const router = useRouter()
 
-  const blogs = await getBlogs()
+  const [blogs, setBlogs] = useState([])
+
+  useEffect(() => {
+    getBlogs().then((blogs) => {
+      setBlogs(blogs)
+    })
+  }, [])
 
   return (
     <div className='relative'>
@@ -37,7 +36,6 @@ const Blog = async () => {
           <div
             className='shadow-2xl m-4 p-4 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 cursor-pointer h-full'
             key={blog.title}>
-            <h1 className='text-xl font-bold'>{blog.title}</h1>
             <div className='self-center mx-auto'>
               <img
                 src={blog.image}
@@ -46,8 +44,31 @@ const Blog = async () => {
                 height={200}
               />
             </div>
+            <h1 className='text-xl font-bold'>{blog.title}</h1>
+            <div className='flex justify-between'>
+              <p className='text-sm text-gray-500'>by {blog.author}</p>
+              <p className='text-sm text-gray-500'>{blog.createdAt.split('T')[0]}</p>
+            </div>
             <div className='self-end space-y-2-center'>
               <p>{blog.description}</p>
+            </div>
+            <div className='flex justify-between'>
+              <div className='flex justify-between'>
+                <span>{blog.likes}</span>
+                <ThumbsUp />
+              </div>
+              <div className='flex justify-between'>
+                <MessageSquare />
+                {blog.comments}
+              </div>
+
+            </div>
+            <div className='self-end'>
+              <Button variant='default' size='lg' className='m-4' onClick={() => {
+                router.push(`/blog/${blog.id}`)
+              }}>
+                Read More
+              </Button>
             </div>
           </div>
         ))}
@@ -55,5 +76,7 @@ const Blog = async () => {
     </div>
   )
 }
+
+
 
 export default Blog
