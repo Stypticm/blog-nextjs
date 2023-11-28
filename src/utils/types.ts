@@ -6,13 +6,11 @@ export interface Post {
     author: string
     createdAt: Date
     likes: number
-    comments: Comments
+    comments: Comment[]
     email: string
 }
 
-type Comments = [
-    {
-        author: string
-        comment: string
-    }
-]
+export type Comment = {
+    author: string
+    comment: string
+}

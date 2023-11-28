@@ -1,5 +1,5 @@
-import { authOptions } from '@/lib/auth'
-import clientPromise from '@/lib/mongodb'
+import { authOptions } from '@lib/auth'
+import clientPromise from '@lib/mongodb'
 import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
 

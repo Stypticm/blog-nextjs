@@ -1,12 +1,15 @@
 import clientPromise from '@lib/mongodb'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@lib/auth'
-import { Post } from '../../../utils/types'
+import { Post } from '@utils/types'
+import { ObjectId } from 'mongodb'
 
 
 export async function POST(req: Request) {
 
-    interface IPost extends Omit<Post, '_id'> { }
+    interface IPost extends Omit<Post, '_id'> { 
+        _id?: ObjectId
+    }
 
     const mongodb = await clientPromise
     const session = await getServerSession(authOptions)
@@ -39,7 +42,7 @@ export async function POST(req: Request) {
             )
         }
 
-        const post = await db.collection("Post").insertOne(
+        const post = await db.collection<IPost>("Post").insertOne(
             {
                 title,
                 description,
