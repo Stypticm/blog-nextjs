@@ -8,6 +8,7 @@ export interface Post {
     likes: number
     comments: Comment[]
     email: string
+    avatar: string
 }
 
 export type Comment = {

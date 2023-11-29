@@ -85,9 +85,9 @@ const CreatePostForm = () => {
             name='title'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel className='text-gray-800'>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder='Enter your title name' {...field} />
+                  <Input placeholder='Enter your title name' {...field} className='text-gray-800'/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -97,8 +97,8 @@ const CreatePostForm = () => {
             control={form.control}
             name='description'
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
+              <FormItem className='text-gray-800'>
+                <FormLabel className='text-gray-800'>Description</FormLabel>
                 <ReactQuillField value={field.value} onChange={field.onChange} />
                 <FormMessage />
               </FormItem>
@@ -109,9 +109,9 @@ const CreatePostForm = () => {
             name='image'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Picture</FormLabel>
+                <FormLabel className='text-gray-800'>Picture</FormLabel>
                 <FormControl>
-                  <Input type='url' placeholder='Enter url your picture' {...field} />
+                  <Input type='url' placeholder='Enter url your picture' {...field} className='text-gray-800'/>
                 </FormControl>
                 <FormMessage />
               </FormItem>

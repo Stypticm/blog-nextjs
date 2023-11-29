@@ -52,6 +52,7 @@ export async function POST(req: Request) {
                 author: user?.name as string,
                 email: user?.email as string,
                 createdAt: new Date(),
+                avatar: user?.image as string
             }
         )
 

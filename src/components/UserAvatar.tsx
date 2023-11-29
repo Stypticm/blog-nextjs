@@ -3,7 +3,7 @@ import Image from 'next/image'
 import {
   Avatar,
   AvatarFallback,
-} from '@/components/ui/Avatar'
+} from '@components/ui/Avatar'
 
 interface UserAvatarProps {
   user: Pick<User, 'name' | 'image'>

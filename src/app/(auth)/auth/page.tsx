@@ -1,6 +1,6 @@
-import Auth from '@/components/Auth'
-import { buttonVariants } from '@/components/ui/Button'
-import { cn } from '@/lib/utils'
+import Auth from '@components/Auth'
+import { buttonVariants } from '@components/ui/Button'
+import { cn } from '@lib/utils'
 import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 
