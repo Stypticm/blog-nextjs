@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { Button } from './ui/Button'
-import { cn } from '@/lib/utils'
+import { cn } from '@lib/utils'
 import { Icons } from './Icons'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@hooks/use-toast'
 import { signIn } from 'next-auth/react'
 
 interface UserAuthFormProps

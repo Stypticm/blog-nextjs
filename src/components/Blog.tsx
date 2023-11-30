@@ -45,43 +45,51 @@ const Blog = () => {
           ) : (
             blogs.map((blog: any) => (
               <div
-                className='shadow-2xl m-4 p-4 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 cursor-pointer h-full'
+                className='shadow-2xl m-2 p-2 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 cursor-pointer h-full'
+                onClick={() => {
+                  router.push(`/blog/${blog._id}`)
+                }}
                 key={blog.title}>
                 <div className='self-center mx-auto'>
                   <img
                     src={blog.image}
                     alt={blog.title}
-                    width={300}
-                    height={200}
+                    loading='lazy'
+                    style={{
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      width: '300px',
+                      height: '150px'
+                    }}
                   />
                 </div>
                 <h1 className='text-xl font-bold text-gray-800'>{blog.title}gfdgd</h1>
                 <div className='self-end space-y-2-center text-gray-500'>
-                  <p>{blog.description}</p>
+                  {blog.description.length > 50 ? blog.description.slice(0, 50) + '...' : blog.description}
                 </div>
-                <div className='flex gap-2'>
-                  <p className='border rounded-full p-1 border-gray-800 flex justify-center items-center'>
+                <div className='flex gap-2 m-6'>
+                  <p className='p-1 border-gray-800 flex justify-center items-center'>
                     <UserAvatar
                       user={{
                         image: blog.avatar || null,
                       }}
                     />
                   </p>
-                  <div className=''>
+                  <div className='flex flex-col justify-center ml-2'>
                     <p className='text-sm text-gray-500 font-bold'>by {blog.author}</p>
                     <p className='text-sm text-gray-500'>{blog.createdAt.split('T')[0]}</p>
                   </div>
                 </div>
 
 
-                <div className='flex justify-between'>
-                  <div className='flex justify-between'>
-                    <span>{blog.likes}</span>
-                    <ThumbsUp />
+                <div className='flex justify-between m-6'>
+                  <div className='flex justify-between gap-2'>
+                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{blog.likes}</span>
+                    <ThumbsUp className='hover:text-blue-500'/>
                   </div>
-                  <div className='flex justify-between'>
-                    <MessageSquare />
-                    {blog.comments}
+                  <div className='flex justify-between gap-2'>
+                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{blog.comments.length}</span>
+                    <MessageSquare className='hover:text-blue-500'/>
                   </div>
 
                 </div>
