@@ -12,6 +12,7 @@ export interface Post {
 }
 
 export type Comment = {
+    _id: string
     author: string
     comment: string
 }

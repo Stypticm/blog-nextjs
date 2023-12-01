@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@components/ui/Button'
 import { getBlogs } from '@utils/blog_helpers'
-import { MessageSquare, ThumbsUp } from 'lucide-react'
+import { ArrowBigDown, ArrowBigUp, MessageSquare } from 'lucide-react'
 import { Post } from '@utils/types'
 import { UserAvatar } from './UserAvatar'
 
@@ -84,22 +84,25 @@ const Blog = () => {
 
                 <div className='flex justify-between m-6'>
                   <div className='flex justify-between gap-2'>
+                    <ArrowBigDown className='hover:text-red-600'/>
                     <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{blog.likes}</span>
-                    <ThumbsUp className='hover:text-blue-500'/>
+                    <ArrowBigUp className='hover:text-green-600'/>
                   </div>
                   <div className='flex justify-between gap-2'>
-                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{blog.comments.length}</span>
                     <MessageSquare className='hover:text-blue-500'/>
+                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{blog.comments.length}</span>
+                    {' '}
+                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>comments</span>
                   </div>
 
                 </div>
-                <div className='self-end'>
+                {/* <div className='self-end'>
                   <Button variant='default' size='lg' className='m-4' onClick={() => {
                     router.push(`/blog/${blog._id}`)
                   }}>
                     Read More
                   </Button>
-                </div>
+                </div> */}
               </div>
             ))
           )

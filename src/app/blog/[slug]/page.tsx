@@ -2,10 +2,21 @@
 
 import { Button } from '@components/ui/Button'
 import { useRouter } from 'next/navigation'
-import { getBlogs } from '@utils/blog_helpers'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { ThumbsUp } from 'lucide-react'
-import { Post } from '@utils/types'
+import { Comment, Post } from '@utils/types'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@components/ui/Form'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { Input } from '@components/ui/Input'
+import { fetchSelectedPostBySlug } from '@utils/postUtils'
+
+const formSchema = z.object({
+    comment: z.string().min(10, {
+        message: 'Comment must be at least 5 characters.',
+    })
+})
 
 const Page = ({
     params: { slug },
@@ -14,19 +25,42 @@ const Page = ({
 }) => {
     const router = useRouter()
 
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            comment: '',
+        },
+    })
+
     const [selectedPost, setSelectedPost] = useState(null as Post | null)
 
-    useEffect(() => {
-        const fetchSelectedPost = async () => {
-            try {
-                const blogs = await getBlogs() as Post[]
-                const selected = blogs.find((blog: Post) => blog._id === slug)
-                setSelectedPost(selected as Post)
-            } catch (error) {
-                console.error(error)
+    const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
+        try {
+
+            if (selectedPost) {
+                const commentData = {
+                    ...values,
+                    postId: selectedPost._id
+                }
+                await fetch('/api/createcomment', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(commentData),
+                })
+
+                await fetchSelectedPostBySlug(slug, setSelectedPost);
+                form.reset()
+
             }
+        } catch (error) {
+            console.log(error)
         }
-        fetchSelectedPost()
+    }, [form, selectedPost, slug])
+
+    useEffect(() => {
+        fetchSelectedPostBySlug(slug, setSelectedPost);
     }, [slug])
 
 
@@ -67,31 +101,54 @@ const Page = ({
                             <span>{selectedPost.likes}</span>
                             <ThumbsUp />
                         </div>
-                        <div className='flex justify-between'>
-                            {/* {selectedPost.comments.map((comment: any) => (
-                            <>
-                                <span>Misha</span>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                            </>
-                        ))} */}
-                        </div>
                     </div>
                 </div>
                 <div className='shadow-sm m-4 p-4 rounded-lg bg-white grid grid-cols-1 grid-template-cols-1 text-center space-y-4 cursor-pointer'>
-                    <span className='text-sm text-gray-500 flex justify-between'>Author: Misha</span>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores eius unde quis quas assumenda autem aut libero non modi consequuntur, quos officiis rem commodi, impedit exercitationem quam quod repellat expedita?</p>
-                </div>
-                <div className='shadow-sm m-4 p-4 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 cursor-pointer'>
-                    <span className='text-sm text-gray-500 flex justify-between'>Author: Misha</span>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores eius unde quis quas assumenda autem aut libero non modi consequuntur, quos officiis rem commodi, impedit exercitationem quam quod repellat expedita?</p>
-                </div>
-                <div className='shadow-sm m-4 p-4 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 cursor-pointer'>
-                    <span className='text-sm text-gray-500 flex justify-between'>Author: Misha</span>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores eius unde quis quas assumenda autem aut libero non modi consequuntur, quos officiis rem commodi, impedit exercitationem quam quod repellat expedita?</p>
-                </div>
-                <div className='shadow-sm m-4 p-4 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 cursor-pointer'>
-                    <span className='text-sm text-gray-500 flex justify-between'>Author: Misha</span>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores eius unde quis quas assumenda autem aut libero non modi consequuntur, quos officiis rem commodi, impedit exercitationem quam quod repellat expedita?</p>
+                    <Form {...form}>
+                        <h1 className='text-xl font-bold text-center text-blue-500'>Add Comment</h1>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className='space-y-8'>
+                            <FormField
+                                control={form.control}
+                                name='comment'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className='text-gray-800'>Comment</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder='Enter your comment' {...field} className='text-gray-800' />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <Button
+                                variant='default'
+                                size='lg'
+                                className='m-4'
+                                type='submit'>
+                                Submit
+                            </Button>
+                        </form>
+                    </Form>
+                    <div className='self-end space-y-2-center pt-4'>
+                        {selectedPost.comments.length === 0 ? (
+                            <p>No comments yet</p>
+                        ) : (
+                            <>
+                                {
+                                    selectedPost.comments.map((comment: Comment) => (
+                                        <div key={comment._id} className='border border-gray-300 m-4 p-4 rounded-lg'>
+                                            <div className='flex justify-between'>
+                                                <span className='text-gray-500 font-bold'>{comment.author}</span>
+                                            </div>
+                                            <p className='text-gray-500'>{comment.comment}</p>
+                                        </div>
+                                    ))
+                                }
+                            </>
+                        )}
+                    </div>
                 </div>
             </>
         )}
