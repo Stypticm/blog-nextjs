@@ -1,3 +1,4 @@
+import { signIn } from 'next-auth/react';
 import GoogleProvider from 'next-auth/providers/google'
 import GithubProvider from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
@@ -10,16 +11,11 @@ import {
 import { compare } from 'bcrypt'
 import { JWT } from 'next-auth/jwt'
 
-import clientPromise from '@/lib/mongodb'
+import clientPromise from '@lib/mongodb'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 
 export const authOptions: AuthOptions = {
-  adapter: MongoDBAdapter(clientPromise, {
-    collections: {
-      Accounts: 'Account',
-      Users: 'User',
-    },
-  }),
+  adapter: MongoDBAdapter(clientPromise),
   session: {
     strategy: 'jwt',
   },
@@ -28,16 +24,35 @@ export const authOptions: AuthOptions = {
   },
   providers: [
     GoogleProvider({
-      name: 'Google',
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env
         .GOOGLE_CLIENT_SECRET as string,
+      async profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          likedPosts: [],
+          dislikedPosts: [],
+        }
+      }
     }),
     GithubProvider({
       name: 'Github',
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env
         .GITHUB_CLIENT_SECRET as string,
+      async profile(profile) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name ?? profile.login,
+          email: profile.email,
+          image: profile.avatar_url,
+          likedPosts: [],
+          dislikedPosts: [],
+        }
+      }
     }),
     CredentialsProvider({
       id: 'credentials',
@@ -60,7 +75,7 @@ export const authOptions: AuthOptions = {
           throw new Error('Email and password are required')
         }
 
-        const user = await db.collection("User").findOne(
+        const user = await db.collection("users").findOne(
           {
             email: credentials.email
           }
@@ -79,8 +94,6 @@ export const authOptions: AuthOptions = {
           throw new Error('Incorrect password')
         }
 
-        console.log(user._id.toString())
-
         return {
           id: user._id.toString(),
           email: user.email,
@@ -93,13 +106,10 @@ export const authOptions: AuthOptions = {
   debug: process.env.NODE_ENV === 'development',
   callbacks: {
     jwt: ({ token, user }: { token: JWT; user: User }) => {
-      // console.log('JWT callback', { token, user })
       if (user) {
-        const u = user as unknown as any
         return {
           ...token,
-          id: user.id,
-          // randomKey: u.randomKey,
+          id: user.id
         }
       }
       return token
@@ -111,17 +121,15 @@ export const authOptions: AuthOptions = {
       session: Session
       token: JWT
     }) => {
-      // console.log('Session callback', { session, token })
       return {
         ...session,
         user: {
           ...session.user,
-          id: token.id,
-          // randomKey: token.randomKey,
+          id: token.id
         },
       }
     },
-  },
+  }
 }
 
 export const getAuthSession = () =>

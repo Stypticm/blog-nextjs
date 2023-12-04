@@ -1,10 +1,10 @@
 'use client'
 
-import { Input } from '@/components/ui/Input'
-import Modal from '@/components/ui/Modal'
+import { Input } from '@components/ui/Input'
+import Modal from '@components/ui/Modal'
 import axios from 'axios'
 import { signIn } from 'next-auth/react'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
@@ -43,7 +43,7 @@ const AuthModalPage = () => {
       setPassword('')
       router.push('/')
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }, [email, password, router])
 
@@ -59,9 +59,29 @@ const AuthModalPage = () => {
       setName('')
       login()
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }, [email, name, password, login])
+
+  const signInGitHub = useCallback(async () => {
+    try {
+      await signIn('github', {
+        callbackUrl: '/blog',
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+
+  const signInGoogle = useCallback(async () => {
+    try {
+      await signIn('google', {
+        callbackUrl: '/blog',
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
 
   return (
     <Modal closeModal={closeModal}>
@@ -108,20 +128,12 @@ const AuthModalPage = () => {
         <div className='flex flex-row items-center gap-4 mt-8 justify-center'>
           <div
             className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'
-            onClick={() =>
-              signIn('google', {
-                callbackUrl: '/blog',
-              })
-            }>
+            onClick={() => signInGoogle()}>
             <FcGoogle size={30} />
           </div>
           <div
             className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'
-            onClick={() =>
-              signIn('github', {
-                callbackUrl: '/blog',
-              })
-            }>
+            onClick={() => signInGitHub()}>
             <FaGithub size={30} />
           </div>
         </div>

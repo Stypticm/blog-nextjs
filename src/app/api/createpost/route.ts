@@ -27,7 +27,7 @@ export async function POST(req: Request) {
         const { title, description, image } = await req.json()
         const db = await mongodb.db('blog')
 
-        const existingTitle = await db.collection("Post").findOne(
+        const existingTitle = await db.collection("posts").findOne(
             {
                 title
             }
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
             )
         }
 
-        const post = await db.collection<IPost>("Post").insertOne(
+        const post = await db.collection<IPost>("posts").insertOne(
             {
                 title,
                 description,

@@ -1,12 +1,8 @@
-import { authOptions } from '@lib/auth'
 import clientPromise from '@lib/mongodb'
-import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
 
 export async function GET(req: Request) {
-  const session = await getServerSession(authOptions)
   const mongodb = await clientPromise
-  const user = session?.user
 
   if (req.method !== 'GET') {
     return new Response(
@@ -19,7 +15,7 @@ export async function GET(req: Request) {
   try {
     const db = await mongodb.db('blog')
     const posts = await db
-      .collection('Post')
+      .collection('posts')
       .find({})
       .sort({ createdAt: -1 })
       .toArray()
@@ -33,7 +29,4 @@ export async function GET(req: Request) {
       })
     )
   }
-
-
-  // return NextResponse.json({ authenticated: !!session })
 }

@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
-import clientPromise from '@/lib/mongodb'
+import clientPromise from '@lib/mongodb'
+import { User } from '@utils/types'
 
 export async function POST(req: Request) {
   const mongodb = await clientPromise
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
 
     const db = await mongodb.db('blog')
 
-    const existingUser = await db.collection("User").findOne(
+    const existingUser = await db.collection("users").findOne(
       {
         email
       }
@@ -34,14 +35,16 @@ export async function POST(req: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    const user = await db.collection("User").insertOne(
+    const user = await db.collection("users").insertOne(
       {
         email,
         name,
         hashedPassword,
         image: '',
         emailVerified: new Date(),
-      }
+        likedPosts: [],
+        dislikedPosts: [],
+      } as User
     )
 
     return new Response(

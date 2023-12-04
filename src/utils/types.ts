@@ -9,10 +9,29 @@ export interface Post {
     comments: Comment[]
     email: string
     avatar: string
+    likedPosts: []
+    dislikedPosts: []
 }
 
 export type Comment = {
     _id: string
     author: string
     comment: string
+}
+
+export interface User {
+    email: string
+    name: string
+    hashedPassword: string
+    image: '',
+    emailVerified: Date,
+    likedPosts: [],
+    dislikedPosts: [],
+}
+
+export interface SessionUser {
+    email: string
+    name: string
+    image: string
+    id: string
 }

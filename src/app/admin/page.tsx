@@ -1,6 +1,6 @@
-import AdminPanel from '@/components/AdminPanel'
-import { Button } from '@/components/ui/Button'
-import { authOptions } from '@/lib/auth'
+import AdminPanel from '@components/AdminPanel'
+import { Button } from '@components/ui/Button'
+import { authOptions } from '@lib/auth'
 import { getServerSession } from 'next-auth'
 
 import { redirect } from 'next/navigation'

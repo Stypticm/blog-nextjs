@@ -21,7 +21,7 @@ export async function PUT(req: Request) {
         const { postId, comment } = await req.json()
         const db = await mongodb.db('blog')
 
-        const updatedPost = await db.collection('Post').findOneAndUpdate(
+        const updatedPost = await db.collection('posts').findOneAndUpdate(
             { _id: new ObjectId(postId) },
             {
                 $push: {

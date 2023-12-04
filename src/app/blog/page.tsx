@@ -15,7 +15,7 @@ const page = async () => {
     <>
       {/* <pre>{JSON.stringify(session)}</pre> */}
       <div className='flex flex-col items-center'>
-        <Blog />
+        <Blog session={session}/>
       </div>
     </>
   )
