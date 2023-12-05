@@ -1,6 +1,6 @@
 import { authOptions } from '@lib/auth'
 import clientPromise from '@lib/mongodb'
-import { ObjectId, PushOperator } from 'mongodb'
+import { ObjectId, PullOperator, PushOperator } from 'mongodb'
 import { getServerSession } from 'next-auth/next'
 
 export async function PUT(req: Request) {
@@ -33,14 +33,21 @@ export async function PUT(req: Request) {
                     }
                 }
             )
+            
             addLikedPosts = await db.collection('users').findOneAndUpdate(
                 { _id: userId },
                 {
                     $push: {
                         likedPosts: new ObjectId(blog_id)
-                    } as PushOperator<[string]>
+                    } as PushOperator<[string]>,
+                    $pull: {
+                        dislikedPosts: new ObjectId(blog_id)
+                    } as PullOperator<[string]>
                 }
             )
+            
+            
+
         } else {
             like_dislike = await db.collection('posts').findOneAndUpdate(
                 { _id: new ObjectId(blog_id) },
@@ -50,12 +57,16 @@ export async function PUT(req: Request) {
                     }
                 }
             )
+            
             addDislikedPosts = await db.collection('users').findOneAndUpdate(
                 { _id: userId },
                 {
                     $push: {
                         dislikedPosts: new ObjectId(blog_id)
-                    } as PushOperator<[string]>
+                    } as PushOperator<[string]>,
+                    $pull: {
+                        likedPosts: new ObjectId(blog_id)
+                    } as PullOperator<[string]>
                 }
             )
         }

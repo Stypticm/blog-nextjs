@@ -1,16 +1,15 @@
 'use client'
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@components/ui/Button'
-import { ArrowBigDown, ArrowBigUp, MessageSquare } from 'lucide-react'
 import { UserAvatar } from './UserAvatar'
 
 import { getCurrentUser } from '@utils/blog_user_helpers'
 import { getBlogs } from '@utils/blog_helpers'
 import { Post, User } from '@utils/types'
-import axios from 'axios'
+import LikeDislike from './LikeDislike'
 
 
 const Blog = () => {
@@ -24,7 +23,6 @@ const Blog = () => {
     const fetchUser = async () => {
       try {
         const user = await getCurrentUser() as User
-        user.dislikedPosts?.find((dislikedPost: string) => console.log(dislikedPost))
         setCurrentUser(user)
       } catch (error) {
         console.error(error)
@@ -38,6 +36,7 @@ const Blog = () => {
       try {
         const blogs = await getBlogs() as Post[]
         setBlogs(blogs as Post[])
+        console.log()
       } catch (error) {
         console.error(error)
       }
@@ -45,15 +44,23 @@ const Blog = () => {
     fetchBlogs()
   }, [])
 
-  const likeOrDislikePost = useCallback(async (blogId: string, liked: boolean) => {
+  const updateBlogs = async () => {
     try {
-      await axios.put('/api/like_dislike_posts', {
-        blogId, liked
-      })
+      const updatedBlogs = await getBlogs() as Post[]
+      setBlogs(updatedBlogs)
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
-  }, [])
+  }
+
+  const updateCurrentUser = async () => {
+    try {
+      const user = await getCurrentUser() as User
+      setCurrentUser(user)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <div className='relative'>
@@ -109,48 +116,8 @@ const Blog = () => {
                   </div>
                 </div>
 
+                <LikeDislike blog={blog} currentUser={currentUser} updateBlogs={updateBlogs} updateCurrentUser={updateCurrentUser}/>
 
-                <div className='flex justify-between m-6'>
-                  <div className='flex justify-between gap-2'>
-                    {
-                      currentUser.dislikedPosts?.find((dislikedPost: string) => dislikedPost === blog._id) ? (
-                        <button disabled>
-                          <ArrowBigDown />
-                        </button>
-                      ) : (
-                        <button>
-                          <ArrowBigDown className='hover:text-red-600' onClick={() => {
-                            likeOrDislikePost(blog._id, false)
-                          }} />
-                        </button>
-                      )
-                    }
-                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{blog.likes}</span>
-                    {
-                      currentUser.likedPosts?.find((likedPost: string) => likedPost === blog._id) ? (
-                        <button disabled>
-                          <ArrowBigUp />
-                        </button>
-                      ) : (
-                        <button>
-                          <ArrowBigUp className='hover:text-green-600' onClick={() => {
-                            likeOrDislikePost(blog._id, true)
-                          }} />
-                        </button>
-                      )
-                    }
-                  </div>
-                  <div className='flex justify-between gap-2'>
-                    <MessageSquare className='hover:text-blue-500' onClick={() => {
-                      router.push(`/blog/${blog._id}`)
-                    }
-                    } />
-                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{blog.comments.length}</span>
-                    {' '}
-                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>comments</span>
-                  </div>
-
-                </div>
                 <div className='self-end'>
                   <Button variant='default' size='lg' className='m-4' onClick={() => {
                     router.push(`/blog/${blog._id}`)
