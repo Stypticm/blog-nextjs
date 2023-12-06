@@ -9,8 +9,8 @@ import { UserAvatar } from './UserAvatar'
 import { getCurrentUser } from '@utils/blog_user_helpers'
 import { getBlogs } from '@utils/blog_helpers'
 import { Post, User } from '@utils/types'
-import LikeDislike from './LikeDislike'
 import { MessageSquare } from 'lucide-react'
+import LikeCounter from './LikeCounter'
 
 
 const Blog = () => {
@@ -44,24 +44,6 @@ const Blog = () => {
     }
     fetchBlogs()
   }, [])
-
-  const updateBlogs = async () => {
-    try {
-      const updatedBlogs = await getBlogs() as Post[]
-      setBlogs(updatedBlogs)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const updateCurrentUser = async () => {
-    try {
-      const user = await getCurrentUser() as User
-      setCurrentUser(user)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   return (
     <div className='relative'>
@@ -115,7 +97,7 @@ const Blog = () => {
                 </div>
 
                 <div className='flex justify-between'>
-                  <LikeDislike blog={blog} currentUser={currentUser} updateBlogs={updateBlogs} updateCurrentUser={updateCurrentUser} />
+                  <LikeCounter postId={blog._id} currentUser={currentUser} likes={blog.likes}/>
 
                   <div className='flex justify-between gap-2 items-center' onClick={() => {
                     router.push(`/blog/${blog._id}`)

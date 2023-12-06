@@ -17,9 +17,10 @@ export async function PUT(req: Request) {
     }
 
     try {
-        const {blog_id, liked} = await req.json()
+        const { blog_id, liked } = await req.json()
         const db = await mongodb.db('blog')
         let like_dislike, addLikedPosts, addDislikedPosts
+        
 
         // @ts-ignore
         const userId = new ObjectId(user?.id ?? '')
@@ -33,7 +34,7 @@ export async function PUT(req: Request) {
                     }
                 }
             )
-            
+
             addLikedPosts = await db.collection('users').findOneAndUpdate(
                 { _id: userId },
                 {
@@ -45,8 +46,8 @@ export async function PUT(req: Request) {
                     } as PullOperator<[string]>
                 }
             )
-            
-            
+
+
 
         } else {
             like_dislike = await db.collection('posts').findOneAndUpdate(
@@ -57,7 +58,7 @@ export async function PUT(req: Request) {
                     }
                 }
             )
-            
+
             addDislikedPosts = await db.collection('users').findOneAndUpdate(
                 { _id: userId },
                 {

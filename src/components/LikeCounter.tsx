@@ -2,9 +2,10 @@ import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
 import { User } from '@utils/types';
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 
 interface LikeCounterProps {
-    postId: string ;
+    postId: string;
     currentUser: User;
     likes: number;
 }
@@ -14,12 +15,13 @@ const LikeCounter = ({ postId, currentUser, likes }: LikeCounterProps) => {
     const [isLiked, setIsLiked] = useState(currentUser.likedPosts?.includes(postId) || false);
     const [isDisliked, setIsDisliked] = useState(currentUser.dislikedPosts?.includes(postId) || false);
 
-    const likeOrDislikePost = useCallback(async (postId: string, liked: boolean) => {
+    const likeOrDislikePost = useCallback(async (liked: boolean) => {
         try {
             await axios.put('/api/like_dislike_posts', {
-                postId,
+                blog_id: postId,
                 liked
             });
+
             if (liked) {
                 setIsLiked(true);
                 setIsDisliked(false);
@@ -32,7 +34,7 @@ const LikeCounter = ({ postId, currentUser, likes }: LikeCounterProps) => {
         } catch (error) {
             console.log(error);
         }
-    }, [currentUser, postId, likeCount]);
+    }, [currentUser, postId, likeCount, postId]);
 
     useEffect(() => {
         setIsLiked(currentUser.likedPosts?.includes(postId) || false);
@@ -43,11 +45,11 @@ const LikeCounter = ({ postId, currentUser, likes }: LikeCounterProps) => {
     return (
         <div className='flex justify-between m-6'>
             <div className='flex justify-between gap-2'>
-                <button disabled={isDisliked} onClick={() => likeOrDislikePost(postId, false)}>
+                <button disabled={isDisliked} onClick={() => likeOrDislikePost(false)}>
                     <ArrowBigDown className={isDisliked ? 'text-gray-500' : 'hover:text-red-600'} />
                 </button>
                 <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{likeCount}</span>
-                <button disabled={isLiked} onClick={() => likeOrDislikePost(postId, true)}>
+                <button disabled={isLiked} onClick={() => likeOrDislikePost(true)}>
                     <ArrowBigUp className={isLiked ? 'text-gray-500' : 'hover:text-green-600'} />
                 </button>
             </div>
@@ -55,4 +57,4 @@ const LikeCounter = ({ postId, currentUser, likes }: LikeCounterProps) => {
     );
 };
 
-export default LikeCounter;
+export default React.memo(LikeCounter);
