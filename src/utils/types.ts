@@ -9,8 +9,8 @@ export interface Post {
     comments: Comment[]
     email: string
     avatar: string
-    likedPosts: []
-    dislikedPosts: []
+    likedPosts: string[]
+    dislikedPosts: string[]
 }
 
 export type Comment = {
@@ -25,8 +25,8 @@ export interface User {
     hashedPassword: string
     image: '',
     emailVerified: Date,
-    likedPosts: [],
-    dislikedPosts: [],
+    likedPosts: string[],
+    dislikedPosts: string[],
 }
 
 export interface SessionUser {

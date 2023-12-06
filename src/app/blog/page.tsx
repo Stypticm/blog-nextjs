@@ -1,6 +1,7 @@
 import Blog from '@components/Blog'
 import { authOptions } from '@lib/auth'
-import { getServerSession } from 'next-auth'
+import { getServerSession } from 'next-auth/next'
+
 
 import { redirect } from 'next/navigation'
 
@@ -15,7 +16,7 @@ const page = async () => {
     <>
       {/* <pre>{JSON.stringify(session)}</pre> */}
       <div className='flex flex-col items-center'>
-        <Blog session={session}/>
+        <Blog/>
       </div>
     </>
   )

@@ -3,14 +3,15 @@
 import { Button } from '@components/ui/Button'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
-import { ThumbsUp } from 'lucide-react'
-import { Comment, Post } from '@utils/types'
+import { Comment, Post, User } from '@utils/types'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@components/ui/Form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Input } from '@components/ui/Input'
 import { fetchSelectedPostBySlug } from '@utils/postUtils'
+import { getCurrentUser } from '@utils/blog_user_helpers'
+import LikeCounter from '@components/LikeCounter'
 
 const formSchema = z.object({
     comment: z.string().min(10, {
@@ -33,6 +34,7 @@ const Page = ({
     })
 
     const [selectedPost, setSelectedPost] = useState(null as Post | null)
+    const [currentUser, setCurrentUser] = useState({} as any)
 
     const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
         try {
@@ -64,6 +66,18 @@ const Page = ({
     }, [slug])
 
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const user = await getCurrentUser() as User
+                setCurrentUser(user)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        fetchUser()
+    }, [])
+
     return <div className='relative pt-5 '>
         <div className='flex justify-center'>
             <Button
@@ -93,15 +107,10 @@ const Page = ({
                         <p className='text-sm text-gray-500'>by {selectedPost.author}</p>
                         <p className='text-sm text-gray-500'>{selectedPost.createdAt.toString().split('T')[0]}</p>
                     </div>
-                    <div className='self-end space-y-2-center'>
-                        <p>{selectedPost.description}</p>
+                    <div className='self-end space-y-2-center overflow-hidden'>
+                        <p className='line-clamp-3'>{selectedPost.description}</p>
                     </div>
-                    <div className='flex justify-between'>
-                        <div className='flex justify-between'>
-                            <span>{selectedPost.likes}</span>
-                            <ThumbsUp />
-                        </div>
-                    </div>
+                    <LikeCounter postId={selectedPost._id} currentUser={currentUser} likes={selectedPost.likes} />
                 </div>
                 <div className='shadow-sm m-4 p-4 rounded-lg bg-white grid grid-cols-1 grid-template-cols-1 text-center space-y-4 cursor-pointer'>
                     <Form {...form}>

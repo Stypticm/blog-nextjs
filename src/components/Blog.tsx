@@ -10,6 +10,7 @@ import { getCurrentUser } from '@utils/blog_user_helpers'
 import { getBlogs } from '@utils/blog_helpers'
 import { Post, User } from '@utils/types'
 import LikeDislike from './LikeDislike'
+import { MessageSquare } from 'lucide-react'
 
 
 const Blog = () => {
@@ -36,7 +37,7 @@ const Blog = () => {
       try {
         const blogs = await getBlogs() as Post[]
         setBlogs(blogs as Post[])
-        console.log()
+
       } catch (error) {
         console.error(error)
       }
@@ -81,9 +82,6 @@ const Blog = () => {
             blogs.map((blog: Post) => (
               <div
                 className='shadow-2xl m-2 p-2 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 cursor-pointer h-full'
-                // onClick={() => {
-                //   router.push(`/blog/${blog._id}`)
-                // }}
                 key={blog._id}>
                 <div className='self-center mx-auto'>
                   <img
@@ -116,7 +114,18 @@ const Blog = () => {
                   </div>
                 </div>
 
-                <LikeDislike blog={blog} currentUser={currentUser} updateBlogs={updateBlogs} updateCurrentUser={updateCurrentUser}/>
+                <div className='flex justify-between'>
+                  <LikeDislike blog={blog} currentUser={currentUser} updateBlogs={updateBlogs} updateCurrentUser={updateCurrentUser} />
+
+                  <div className='flex justify-between gap-2 items-center' onClick={() => {
+                    router.push(`/blog/${blog._id}`)
+                  }}>
+                    <MessageSquare className='hover:text-blue-500' />
+                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{blog.comments.length}</span>
+                    {' '}
+                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>comments</span>
+                  </div>
+                </div>
 
                 <div className='self-end'>
                   <Button variant='default' size='lg' className='m-4' onClick={() => {
