@@ -27,6 +27,10 @@ const UserAccountNav = async ({ user }: UserAccountNavProps) => {
     router.push('/admin')
   };
 
+  const handleProfileClick = () => {
+    router.push('/profile')
+  }
+
 
   return (
     <DropdownMenu>
@@ -48,6 +52,14 @@ const UserAccountNav = async ({ user }: UserAccountNavProps) => {
             })
           }}>
           Sign out
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className='cursor-pointer'
+          onSelect={(event) => {
+            event.preventDefault()
+            handleProfileClick()
+          }}>
+          Profile
         </DropdownMenuItem>
         {
           user.email === 'misha@ya.ru' && (

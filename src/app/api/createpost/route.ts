@@ -48,6 +48,8 @@ export async function POST(req: Request) {
                 description,
                 image,
                 comments: [],
+                dislikedPosts: [],
+                likedPosts: [],
                 likes: 0,
                 author: user?.name as string,
                 email: user?.email as string,

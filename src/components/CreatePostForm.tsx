@@ -17,6 +17,7 @@ import {
 } from '@components/ui/Form'
 import { Input } from '@components/ui/Input'
 import { useCallback } from 'react'
+import axios from 'axios'
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -44,13 +45,8 @@ const CreatePostForm = () => {
 
   const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
     try {
-      await fetch('/api/createpost', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      })
+      await axios.post('/api/createpost', values)
+
       form.reset()
       router.push('/blog')
     } catch (error) {

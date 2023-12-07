@@ -12,6 +12,7 @@ import { Input } from '@components/ui/Input'
 import { fetchSelectedPostBySlug } from '@utils/postUtils'
 import { getCurrentUser } from '@utils/blog_user_helpers'
 import LikeCounter from '@components/LikeCounter'
+import axios from 'axios'
 
 const formSchema = z.object({
     comment: z.string().min(10, {
@@ -33,6 +34,7 @@ const Page = ({
         },
     })
 
+    const [showFullDescription, setShowFullDescription] = useState(false)
     const [selectedPost, setSelectedPost] = useState(null as Post | null)
     const [currentUser, setCurrentUser] = useState({} as any)
 
@@ -44,13 +46,8 @@ const Page = ({
                     ...values,
                     postId: selectedPost._id
                 }
-                await fetch('/api/createcomment', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(commentData),
-                })
+
+                await axios.put('/api/createcomment', commentData)
 
                 await fetchSelectedPostBySlug(slug, setSelectedPost);
                 form.reset()
@@ -107,8 +104,18 @@ const Page = ({
                         <p className='text-sm text-gray-500'>by {selectedPost.author}</p>
                         <p className='text-sm text-gray-500'>{selectedPost.createdAt.toString().split('T')[0]}</p>
                     </div>
-                    <div className='self-end space-y-2-center overflow-hidden'>
-                        <p className='line-clamp-3'>{selectedPost.description}</p>
+                    <div className='self-end space-y-2-center'>
+                        {showFullDescription ? (
+                            <p>{selectedPost.description}</p>
+                        ) : (
+                            <p className='line-clamp-1'>{selectedPost.description}</p>
+                        )}
+                        <button
+                            onClick={() => setShowFullDescription(!showFullDescription)}
+                            className='text-blue-500'
+                        >
+                            {showFullDescription ? 'Show Less' : 'Show More'}
+                        </button>
                     </div>
                     <LikeCounter postId={selectedPost._id} currentUser={currentUser} likes={selectedPost.likes} />
                 </div>
