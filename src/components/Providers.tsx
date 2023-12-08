@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-query'
 import { SessionProvider } from 'next-auth/react'
 import type { FC } from 'react'
+import { ThemeProvider } from './ThemeProvider'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -19,7 +20,9 @@ const Providers: FC<LayoutProps> = ({
   return (
     <QueryClientProvider client={queryClient}>
       <SessionProvider>
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="light">
+          {children}
+        </ThemeProvider>
       </SessionProvider>
     </QueryClientProvider>
   )

@@ -6,7 +6,6 @@ import Providers from '@components/Providers'
 import { Toaster } from '@components/ui/Toaster'
 import { cn } from '@lib/utils'
 
-
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -14,7 +13,6 @@ export const metadata: Metadata = {
   description:
     'Blog, practice in Nextjs, with dynamic routes and other functionality.',
 }
-
 
 
 export default function RootLayout({
@@ -25,20 +23,25 @@ export default function RootLayout({
   authModal: React.ReactNode
 }) {
   return (
-    <html lang='en'>
-      <body className={cn('bg-gray-200', inter.className)}>
-        <Providers>
+    <>
+      <html lang='en'>
+        <body className={cn(inter.className, 'bg-zinc-400 dark:bg-[#0d1117]')}>
+          <Providers>
 
-          <div className='sticky top-0 z-50 inset-x-0 h-16'>
-            <Navbar />
-          </div>
+            <div className='sticky top-0 z-50 inset-x-0 h-16'>
+              <Navbar />
+            </div>
 
-          {authModal}
-          <div>{children}</div>
+            {authModal}
+            <div>
+              {children}
+            </div>
 
-        </Providers>
-        <Toaster />
-      </body>
-    </html>
+
+          </Providers>
+          <Toaster />
+        </body>
+      </html>
+    </>
   )
 }

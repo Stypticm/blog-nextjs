@@ -56,21 +56,24 @@ const CreatePostForm = () => {
 
   return (
     <div className='pt-5'>
-      <Button
+      <section className='flex justify-center'>
+        {/* <Button
         variant='default'
         size='lg'
         className='m-4'
         disabled
       >
         Create Post
-      </Button>
-      <Button
-        variant='default'
-        size='lg'
-        className='m-4'
-        onClick={() => router.push('/blog')}>
-        Back to Blog
-      </Button>
+      </Button> */}
+        <Button
+          variant='default'
+          size='lg'
+          className='m-4'
+          onClick={() => router.push('/blog')}>
+          Back to Blog
+        </Button>
+      </section>
+
       <Form {...form}>
         <h1 className='text-2xl font-bold text-center text-blue-500'>Create Post</h1>
         <form
@@ -83,7 +86,7 @@ const CreatePostForm = () => {
               <FormItem>
                 <FormLabel className='text-gray-800'>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder='Enter your title name' {...field} className='text-gray-800'/>
+                  <Input placeholder='Enter your title name' {...field} className='text-gray-800' />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -107,7 +110,7 @@ const CreatePostForm = () => {
               <FormItem>
                 <FormLabel className='text-gray-800'>Picture</FormLabel>
                 <FormControl>
-                  <Input type='url' placeholder='Enter url your picture' {...field} className='text-gray-800'/>
+                  <Input type='url' placeholder='Enter url your picture' {...field} className='text-gray-800' />
                 </FormControl>
                 <FormMessage />
               </FormItem>

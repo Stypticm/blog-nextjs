@@ -56,68 +56,72 @@ const Blog = () => {
       </div>
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
         {
-          blogs.length === 0 ? (
-            <div className='text-center text-gray-500 mx-auto'>
-              No posts yet
-            </div>
+          blogs === undefined ? (
+            <p className='text-gray-500'>Can't get access to Mongo data base</p>
           ) : (
-            blogs.map((blog: Post) => (
-              <div
-                className='shadow-2xl m-2 p-2 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 cursor-pointer h-full'
-                key={blog._id}>
-                <div className='self-center mx-auto'>
-                  <img
-                    src={blog.image}
-                    alt={blog.title}
-                    loading='lazy'
-                    style={{
-                      objectFit: 'cover',
-                      objectPosition: 'center',
-                      width: '300px',
-                      height: '150px'
-                    }}
-                  />
-                </div>
-                <h1 className='text-xl font-bold text-gray-800'>{blog.title}gfdgd</h1>
-                <div className='self-end space-y-2-center text-gray-500'>
-                  {blog.description.length > 50 ? blog.description.slice(0, 50) + '...' : blog.description}
-                </div>
-                <div className='flex gap-2 m-6'>
-                  <p className='p-1 border-gray-800 flex justify-center items-center'>
-                    <UserAvatar
-                      user={{
-                        image: blog.avatar || null,
+            blogs.length === 0 ? (
+              <p className='text-gray-500'>
+                No posts yet
+              </p>
+            ) : (
+              blogs.map((blog: Post) => (
+                <div
+                  className='shadow-2xl m-2 p-2 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 cursor-pointer h-full'
+                  key={blog._id}>
+                  <div className='self-center mx-auto'>
+                    <img
+                      src={blog.image}
+                      alt={blog.title}
+                      loading='lazy'
+                      style={{
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                        width: '300px',
+                        height: '150px'
                       }}
                     />
-                  </p>
-                  <div className='flex flex-col justify-center ml-2'>
-                    <p className='text-sm text-gray-500 font-bold'>by {blog.author}</p>
-                    <p className='text-sm text-gray-500'>{blog.createdAt.toString().split('T')[0]}</p>
+                  </div>
+                  <h1 className='text-xl font-bold text-gray-800'>{blog.title}gfdgd</h1>
+                  <div className='self-end space-y-2-center text-gray-500'>
+                    {blog.description.length > 50 ? blog.description.slice(0, 50) + '...' : blog.description}
+                  </div>
+                  <div className='flex gap-2 m-6'>
+                    <p className='p-1 border-gray-800 flex justify-center items-center'>
+                      <UserAvatar
+                        user={{
+                          image: blog.avatar || null,
+                        }}
+                      />
+                    </p>
+                    <div className='flex flex-col justify-center ml-2'>
+                      <p className='text-sm text-gray-500 font-bold'>by {blog.author}</p>
+                      <p className='text-sm text-gray-500'>{blog.createdAt.toString().split('T')[0]}</p>
+                    </div>
+                  </div>
+
+                  <div className='flex justify-between'>
+                    <LikeCounter postId={blog._id} currentUser={currentUser} likes={blog.likes} />
+
+                    <div className='flex justify-between gap-2 items-center' onClick={() => {
+                      router.push(`/blog/${blog._id}`)
+                    }}>
+                      <MessageSquare className='hover:text-blue-500' />
+                      <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{blog.comments.length}</span>
+                      {' '}
+                      <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>comments</span>
+                    </div>
+                  </div>
+
+                  <div className='self-end'>
+                    <Button variant='default' size='lg' className='m-4 dark:bg-gray-800 dark:text-gray-200' onClick={() => {
+                      router.push(`/blog/${blog._id}`)
+                    }}>
+                      Read More
+                    </Button>
                   </div>
                 </div>
-
-                <div className='flex justify-between'>
-                  <LikeCounter postId={blog._id} currentUser={currentUser} likes={blog.likes}/>
-
-                  <div className='flex justify-between gap-2 items-center' onClick={() => {
-                    router.push(`/blog/${blog._id}`)
-                  }}>
-                    <MessageSquare className='hover:text-blue-500' />
-                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{blog.comments.length}</span>
-                    {' '}
-                    <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>comments</span>
-                  </div>
-                </div>
-
-                <div className='self-end'>
-                  <Button variant='default' size='lg' className='m-4' onClick={() => {
-                    router.push(`/blog/${blog._id}`)
-                  }}>
-                    Read More
-                  </Button>
-                </div>
-              </div>
-            ))
+              ))
+            )
           )
         }
       </div>

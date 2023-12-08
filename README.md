@@ -7,6 +7,7 @@
 - Shadcnui
 - Zod
 - Axios
+- DB MongoDB
 
 /?/ Maybe will be added in future
 - Redis (for practice)

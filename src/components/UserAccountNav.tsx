@@ -19,7 +19,7 @@ interface UserAccountNavProps {
   }
 }
 
-const UserAccountNav = async ({ user }: UserAccountNavProps) => {
+const UserAccountNav = ({ user }: UserAccountNavProps) => {
 
   const router = useRouter()
 
