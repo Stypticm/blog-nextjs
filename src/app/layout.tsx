@@ -14,7 +14,6 @@ export const metadata: Metadata = {
     'Blog, practice in Nextjs, with dynamic routes and other functionality.',
 }
 
-
 export default function RootLayout({
   children,
   authModal,
@@ -36,7 +35,6 @@ export default function RootLayout({
             <div>
               {children}
             </div>
-
 
           </Providers>
           <Toaster />

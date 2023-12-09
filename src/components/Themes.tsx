@@ -1,6 +1,5 @@
 'use client'
 
-
 import { useTheme } from 'next-themes'
 import { Icons } from './Icons'
 
@@ -11,14 +10,12 @@ const Themes = () => {
         <>
             {
                 theme === 'dark' ? (
-                    <button onClick={() => setTheme('light')}>
+                    <button onClick={() => setTheme('light')} suppressHydrationWarning={true}>
                         <Icons.sun />
-
                     </button>
                 ) : (
-                    <button onClick={() => setTheme('dark')}>
+                    <button onClick={() => setTheme('dark')} suppressHydrationWarning={true}>
                         <Icons.moon />
-
                     </button>
                 )
             }
