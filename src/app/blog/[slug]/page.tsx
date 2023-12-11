@@ -89,7 +89,7 @@ const Page = ({
         {selectedPost && (
             <>
                 <div
-                    className='shadow-2xl m-4 p-4 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 cursor-pointer h-full'
+                    className='shadow-2xl m-4 p-4 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 h-full'
                     key={selectedPost.title}>
                     <div className='self-center mx-auto'>
                         <img
@@ -99,12 +99,12 @@ const Page = ({
                             height={300}
                         />
                     </div>
-                    <h1 className='text-xl font-bold'>{selectedPost.title}</h1>
+                    <h1 className='text-xl font-bold text-slate-800'>{selectedPost.title}</h1>
                     <div className='flex justify-between'>
                         <p className='text-sm text-gray-500'>by {selectedPost.author}</p>
                         <p className='text-sm text-gray-500'>{selectedPost.createdAt.toString().split('T')[0]}</p>
                     </div>
-                    <div className='self-end space-y-2-center'>
+                    <div className='self-end space-y-2-center text-slate-800'>
                         {showFullDescription ? (
                             <p>{selectedPost.description}</p>
                         ) : (
@@ -119,7 +119,7 @@ const Page = ({
                     </div>
                     <LikeCounter postId={selectedPost._id} currentUser={currentUser} likes={selectedPost.likes} />
                 </div>
-                <div className='shadow-sm m-4 p-4 rounded-lg bg-white grid grid-cols-1 grid-template-cols-1 text-center space-y-4 cursor-pointer'>
+                <div className='shadow-sm m-4 p-4 rounded-lg bg-white grid grid-cols-1 grid-template-cols-1 text-center space-y-4'>
                     <Form {...form}>
                         <h1 className='text-xl font-bold text-center text-blue-500'>Add Comment</h1>
                         <form
@@ -132,7 +132,7 @@ const Page = ({
                                     <FormItem>
                                         <FormLabel className='text-gray-800'>Comment</FormLabel>
                                         <FormControl>
-                                            <Input placeholder='Enter your comment' {...field} className='text-gray-800' />
+                                            <Input placeholder='Enter your comment' {...field} className='text-gray-800 dark:text-gray-200' />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -141,7 +141,7 @@ const Page = ({
                             <Button
                                 variant='default'
                                 size='lg'
-                                className='m-4'
+                                className='m-4 dark:bg-slate-900 dark:text-gray-200'
                                 type='submit'>
                                 Submit
                             </Button>

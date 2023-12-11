@@ -105,10 +105,10 @@ const Blog = () => {
                     <div className='flex justify-between gap-2 items-center' onClick={() => {
                       router.push(`/blog/${blog._id}`)
                     }}>
-                      <MessageSquare className='hover:text-blue-500' />
-                      <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{blog.comments.length}</span>
+                      <MessageSquare className='hover:text-blue-500 text-slate-700' />
+                      <span className='text-sm text-slate-800 font-bold flex justify-center items-center'>{blog.comments.length}</span>
                       {' '}
-                      <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>comments</span>
+                      <span className='text-sm text-slate-800 font-bold flex justify-center items-center'>comments</span>
                     </div>
                   </div>
 

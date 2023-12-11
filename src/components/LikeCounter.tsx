@@ -45,12 +45,12 @@ const LikeCounter = ({ postId, currentUser, likes }: LikeCounterProps) => {
     return (
         <div className='flex justify-between m-6'>
             <div className='flex justify-between gap-2'>
-                <button disabled={isDisliked} onClick={() => likeOrDislikePost(false)}>
-                    <ArrowBigDown className={isDisliked ? 'text-gray-500' : 'hover:text-red-600'} />
+                <button disabled={isDisliked} onClick={() => likeOrDislikePost(false)} suppressHydrationWarning={true}>
+                    <ArrowBigDown className={isDisliked ? 'text-gray-400' : 'hover:text-red-600 text-slate-700'} />
                 </button>
-                <span className='text-sm text-gray-500 font-bold flex justify-center items-center'>{likeCount}</span>
-                <button disabled={isLiked} onClick={() => likeOrDislikePost(true)}>
-                    <ArrowBigUp className={isLiked ? 'text-gray-500' : 'hover:text-green-600'} />
+                <span className='text-sm text-slate-800 font-bold flex justify-center items-center'>{likeCount}</span>
+                <button disabled={isLiked} onClick={() => likeOrDislikePost(true)} suppressHydrationWarning={true}>
+                    <ArrowBigUp className={isLiked ? 'text-gray-400' : 'hover:text-green-600 text-slate-700'} />
                 </button>
             </div>
         </div>

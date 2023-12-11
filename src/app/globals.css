@@ -85,3 +85,38 @@ body {
     --ring: 212.7 26.8% 83.9;
   }
 }
+
+.ql-container.ql-snow {
+  border: 1px solid var(--border);
+  background-color: var(--input);
+  color: var(--foreground);
+}
+
+.ql-container.ql-snow .ql-editor {
+  min-height: 200px;
+  font-size: 14px;
+}
+
+.ql-toolbar.ql-snow {
+  border-bottom: 1px solid var(--border);
+  background-color: var(--input);
+  color: var(--foreground);
+}
+
+
+.ql-container.ql-snow.dark {
+  border: 1px solid var(--border);
+  background-color: var(--input);
+  color: var(--foreground);
+}
+
+.ql-container.ql-snow.dark .ql-editor {
+  min-height: 200px;
+  font-size: 14px;
+}
+
+.ql-toolbar.ql-snow.dark {
+  border-bottom: 1px solid var(--border);
+  background-color: var(--input);
+  color: var(--foreground);
+}

@@ -57,14 +57,6 @@ const CreatePostForm = () => {
   return (
     <div className='pt-5'>
       <section className='flex justify-center'>
-        {/* <Button
-        variant='default'
-        size='lg'
-        className='m-4'
-        disabled
-      >
-        Create Post
-      </Button> */}
         <Button
           variant='default'
           size='lg'
@@ -84,9 +76,9 @@ const CreatePostForm = () => {
             name='title'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className='text-gray-800'>Title</FormLabel>
+                <FormLabel className='text-gray-800 dark:text-gray-200'>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder='Enter your title name' {...field} className='text-gray-800' />
+                  <Input placeholder='Enter your title name' {...field} className='text-gray-800 dark:text-gray-200' />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,9 +88,9 @@ const CreatePostForm = () => {
             control={form.control}
             name='description'
             render={({ field }) => (
-              <FormItem className='text-gray-800'>
-                <FormLabel className='text-gray-800'>Description</FormLabel>
-                <ReactQuillField value={field.value} onChange={field.onChange} />
+              <FormItem className='text-gray-800 dark:text-gray-200'>
+                <FormLabel className='text-gray-800 dark:text-gray-200'>Description</FormLabel>
+                <ReactQuillField value={field.value} onChange={field.onChange} className="max-w-lg mx-auto p-4" />
                 <FormMessage />
               </FormItem>
             )}
@@ -108,9 +100,9 @@ const CreatePostForm = () => {
             name='image'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className='text-gray-800'>Picture</FormLabel>
+                <FormLabel className='text-gray-800 dark:text-gray-200'>Picture</FormLabel>
                 <FormControl>
-                  <Input type='url' placeholder='Enter url your picture' {...field} className='text-gray-800' />
+                  <Input type='url' placeholder='Enter url your picture' {...field} className='text-gray-800 dark:text-gray-200' />
                 </FormControl>
                 <FormMessage />
               </FormItem>
