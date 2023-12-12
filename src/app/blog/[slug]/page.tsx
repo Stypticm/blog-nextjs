@@ -78,6 +78,7 @@ const Page = ({
     return <div className='relative pt-5 '>
         <div className='flex justify-center'>
             <Button
+                aria-label='Back to blog'
                 variant='default'
                 size='lg'
                 className='m-4'
@@ -111,6 +112,7 @@ const Page = ({
                             <p className='line-clamp-1'>{selectedPost.description}</p>
                         )}
                         <button
+                            aria-label='Show more'
                             onClick={() => setShowFullDescription(!showFullDescription)}
                             className='text-blue-500'
                         >
@@ -139,6 +141,7 @@ const Page = ({
                                 )}
                             />
                             <Button
+                                aria-label='Submit'
                                 variant='default'
                                 size='lg'
                                 className='m-4 dark:bg-slate-900 dark:text-gray-200'

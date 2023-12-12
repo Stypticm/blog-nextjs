@@ -14,12 +14,12 @@ body {
   --background-end-rgb: 255, 255, 255;
 }
 
-[data-theme='dark'] {
+[theme='dark'] {
   --background: black;
   --foreground: white;
 }
 
-[data-theme='light'] {
+[theme='light'] {
   --background: white;
   --foreground: black;
 }

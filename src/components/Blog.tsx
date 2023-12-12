@@ -48,7 +48,7 @@ const Blog = () => {
   return (
     <div className='relative'>
       <div className='flex items-center justify-center text-center pt-5'>
-        <Button variant='default' size='lg' className='m-4' onClick={() => {
+        <Button aria-label='Create Post' variant='default' size='lg' className='m-4' onClick={() => {
           router.push('/createpost')
         }}>
           Create Post
@@ -113,7 +113,7 @@ const Blog = () => {
                   </div>
 
                   <div className='self-end'>
-                    <Button variant='default' size='lg' className='m-4 dark:bg-gray-800 dark:text-gray-200' onClick={() => {
+                    <Button aria-label='Read More' variant='default' size='lg' className='m-4 dark:bg-gray-800 dark:text-gray-200' onClick={() => {
                       router.push(`/blog/${blog._id}`)
                     }}>
                       Read More

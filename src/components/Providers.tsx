@@ -20,7 +20,10 @@ const Providers: FC<LayoutProps> = ({
   return (
     <QueryClientProvider client={queryClient}>
       <SessionProvider>
-        <ThemeProvider attribute="class" defaultTheme="dark">
+        <ThemeProvider
+          attribute='class'
+          defaultTheme="dark"
+          >
           {children}
         </ThemeProvider>
       </SessionProvider>

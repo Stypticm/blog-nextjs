@@ -121,6 +121,7 @@ const AuthModalPage = () => {
           />
         </div>
         <button
+          aria-label='Login'
           onClick={variant === 'login' ? login : register}
           className='bg-red-500 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'>
           {variant === 'login' ? 'Sign In' : 'Sign Up'}

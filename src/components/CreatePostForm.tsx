@@ -58,6 +58,7 @@ const CreatePostForm = () => {
     <div className='pt-5'>
       <section className='flex justify-center'>
         <Button
+          aria-label='Back to Blog'
           variant='default'
           size='lg'
           className='m-4'
@@ -108,7 +109,7 @@ const CreatePostForm = () => {
               </FormItem>
             )}
           />
-          <Button type='submit'>Submit</Button>
+          <Button aria-label='Submit' type='submit'>Submit</Button>
         </form>
       </Form>
     </div>

@@ -55,6 +55,7 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({
       className={cn('flex flex-row gap-2 pt-2', className)}
       {...props}>
       <Button
+        aria-label='Continue with Google'
         isLoading={isLoading}
         type='button'
         size='sm'
@@ -67,6 +68,7 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({
         Google
       </Button>
       <Button
+        aria-label='Continue with Github'
         isLoading={isLoading}
         type='button'
         size='sm'

@@ -4,7 +4,11 @@ import { buttonVariants } from './ui/Button'
 import { authOptions } from '@lib/auth'
 import { getServerSession } from 'next-auth/next'
 import UserAccountNav from './UserAccountNav'
-import Themes from './Themes'
+import dynamic from 'next/dynamic'
+
+const Themes = dynamic(() => import('./Themes'), {
+  ssr: false,
+})
 
 const Navbar = async () => {
   const session = await getServerSession(authOptions)

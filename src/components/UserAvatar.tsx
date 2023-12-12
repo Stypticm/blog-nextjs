@@ -18,6 +18,7 @@ export function UserAvatar({
       {user.image ? (
         <div className='relative aspect-square h-full w-full'>
           <Image
+            sizes='(max-width: 768px) 100vw, 50vw'
             fill
             src={user.image}
             
