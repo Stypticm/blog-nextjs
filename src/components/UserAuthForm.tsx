@@ -76,7 +76,7 @@ const UserAuthForm: React.FC<UserAuthFormProps> = ({
         onClick={loginWithGithub}
         disabled={isLoading}>
         {isLoading ? null : (
-          <Icons.github className='h-4 w-4 mr-2' />
+          <Icons.github className='h-4 w-4 mr-2 dark:bg-slate-800' />
         )}
         Github
       </Button>

@@ -15,7 +15,7 @@ const AuthModalPage = () => {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [name, setName] = React.useState('')
-  const [modalOpen, setModalOpen] = React.useState(false)
+  const [modalOpen, setModalOpen] = React.useState(true)
 
   const [variant, setVariant] = React.useState<
     'login' | 'register'
@@ -36,12 +36,11 @@ const AuthModalPage = () => {
       await signIn('credentials', {
         email,
         password,
-        redirect: true,
         callbackUrl: '/blog',
+        redirect: true,
       })
       setEmail('')
       setPassword('')
-      router.push('/')
     } catch (error) {
       console.error(error)
     }
@@ -67,6 +66,7 @@ const AuthModalPage = () => {
     try {
       await signIn('github', {
         callbackUrl: '/blog',
+        redirect: true,
       })
     } catch (error) {
       console.log(error)
@@ -77,6 +77,7 @@ const AuthModalPage = () => {
     try {
       await signIn('google', {
         callbackUrl: '/blog',
+        redirect: true,
       })
     } catch (error) {
       console.log(error)
@@ -84,7 +85,7 @@ const AuthModalPage = () => {
   }, [])
 
   return (
-    <Modal closeModal={closeModal}>
+    <Modal closeModal={closeModal} isOpen={modalOpen}>
       <div className='bg-black bg-opacity-70 px-16 py-16 self-center mt-2 w-full max-w-md rounded-md'>
         <h2 className='text-white text-2xl font-semibold mb-4'>
           {variant === 'login' ? 'Login' : 'Register'}
@@ -133,7 +134,7 @@ const AuthModalPage = () => {
             <FcGoogle size={30} />
           </div>
           <div
-            className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'
+            className='w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'
             onClick={() => signInGitHub()}>
             <FaGithub size={30} />
           </div>

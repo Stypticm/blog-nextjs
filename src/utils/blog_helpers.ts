@@ -1,12 +1,13 @@
-import axios from 'axios'
 import { Post } from './types'
 
 type Blogs = Post[]
 
 export async function getBlogs() {
     try {
-        const response = await axios.get('/api/get_data')
-        const data = response.data
+        const response = await fetch('/api/get_data', {
+            next: { revalidate: 10 },
+        })
+        const data = await response.json()
 
         const [blogs] = await Promise.all([data.posts])
 

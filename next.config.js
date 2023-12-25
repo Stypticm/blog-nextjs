@@ -1,11 +1,5 @@
-/** @type {import('next').NextConfig} */
-
-const withPWA = require("@ducanh2912/next-pwa").default({
-  dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
-  register: true,
-  skipWaiting: true,
-})
+const runtimeCaching = require("next-pwa/cache");
+const path = require("path");
 
 const nextConfig = {
   images: {
@@ -29,14 +23,17 @@ const nextConfig = {
   experimental: {
     appDir: true
   },
-  webpack: (config, {}) => {
-    config.module.rules.push({
-      test: /\.html$/,
-      use: 'ignore-loader',
-    })
-
-    return config
-  }
 }
+
+const withPWA = require('@ducanh2912/next-pwa').default({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development",
+  sw: "service-worker.js",
+  customWorkerSrc: path.resolve(".src/lib/service-worker.js"),
+  runtimeCaching
+})
+
 
 module.exports = withPWA(nextConfig)

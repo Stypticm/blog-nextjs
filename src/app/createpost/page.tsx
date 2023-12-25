@@ -1,4 +1,3 @@
-import Blog from '@components/Blog'
 import CreatePostForm from '@components/CreatePostForm'
 import { authOptions } from '@lib/auth'
 import { getServerSession } from 'next-auth'
@@ -15,7 +14,6 @@ const page = async () => {
 
   return (
     <>
-      {/* <pre>{JSON.stringify(session)}</pre> */}
       <div className='flex flex-col items-center'>
         <CreatePostForm />
       </div>

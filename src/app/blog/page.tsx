@@ -2,8 +2,8 @@ import Blog from '@components/Blog'
 import { authOptions } from '@lib/auth'
 import { getServerSession } from 'next-auth/next'
 
-
 import { redirect } from 'next/navigation'
+import React from 'react'
 
 const page = async () => {
   const session = await getServerSession(authOptions)
@@ -12,11 +12,11 @@ const page = async () => {
     return redirect('/')
   }
 
+
   return (
     <>
-      {/* <pre>{JSON.stringify(session)}</pre> */}
       <div className='flex flex-col items-center'>
-        <Blog/>
+          <Blog />
       </div>
     </>
   )

@@ -6,7 +6,7 @@
     "start_url": "/",
     "name": "Blog Practice",
     "short_name": "Blog",
-    "description": "Practice Nextjs, Next-auth, PWA, Redis",
+    "description": "Practice Nextjs, Next-auth, PWA",
     "icons": [
         {
             "src": "/icon-192x192.png",

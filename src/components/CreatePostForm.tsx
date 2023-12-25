@@ -1,6 +1,5 @@
 'use client'
 
-import ReactQuillField from './ui/QuillUI'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -16,8 +15,10 @@ import {
   FormMessage,
 } from '@components/ui/Form'
 import { Input } from '@components/ui/Input'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import axios from 'axios'
+import dynamic from 'next/dynamic'
+import { toast } from '@hooks/use-toast'
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -28,11 +29,12 @@ const formSchema = z.object({
   }),
   image: z.string().url({
     message: 'Image must be a valid URL.',
-  })
+  }).optional(),
 })
 
 const CreatePostForm = () => {
   const router = useRouter()
+  const DynamicQuill = useMemo(() => dynamic(() => import('./ui/QuillUI'), { ssr: false }), [])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,13 +48,16 @@ const CreatePostForm = () => {
   const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.post('/api/createpost', values)
-
-      form.reset()
-      router.push('/blog')
+      form.reset();
+      router.push('/blog');
     } catch (error) {
-      console.log(error)
+      toast({
+        title: 'Post creation failed',
+        description: 'Please try again later',
+        variant: 'destructive',
+      })
     }
-  }, [form])
+  }, [form, router])
 
   return (
     <div className='pt-5'>
@@ -91,7 +96,7 @@ const CreatePostForm = () => {
             render={({ field }) => (
               <FormItem className='text-gray-800 dark:text-gray-200'>
                 <FormLabel className='text-gray-800 dark:text-gray-200'>Description</FormLabel>
-                <ReactQuillField value={field.value} onChange={field.onChange} className="max-w-lg mx-auto p-4" />
+                <DynamicQuill value={field.value} onChange={field.onChange} className="max-w-lg mx-auto p-4" />
                 <FormMessage />
               </FormItem>
             )}

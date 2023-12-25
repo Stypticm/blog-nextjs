@@ -12,7 +12,6 @@ import { Post, User } from '@utils/types'
 import { MessageSquare } from 'lucide-react'
 import LikeCounter from './LikeCounter'
 
-
 const Blog = () => {
 
   const router = useRouter()
@@ -35,15 +34,14 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const blogs = await getBlogs() as Post[]
+        const blogs = await getBlogs()
         setBlogs(blogs as Post[])
-
       } catch (error) {
         console.error(error)
       }
     }
     fetchBlogs()
-  }, [])
+  }, [getBlogs])
 
   return (
     <div className='relative'>
@@ -81,12 +79,12 @@ const Blog = () => {
                       }}
                     />
                   </div>
-                  <h1 className='text-xl font-bold text-gray-800'>{blog.title}gfdgd</h1>
+                  <h1 className='text-xl font-bold text-gray-800'>{blog.title}</h1>
                   <div className='self-end space-y-2-center text-gray-500'>
                     {blog.description.length > 50 ? blog.description.slice(0, 50) + '...' : blog.description}
                   </div>
                   <div className='flex gap-2 m-6'>
-                    <p className='p-1 border-gray-800 flex justify-center items-center'>
+                    <p className='p-1 flex justify-center items-center'>
                       <UserAvatar
                         user={{
                           image: blog.avatar || null,
@@ -128,7 +126,5 @@ const Blog = () => {
     </div>
   )
 }
-
-
 
 export default Blog

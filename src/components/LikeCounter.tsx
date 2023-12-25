@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import React from 'react';
 import useHasMounted from '@hooks/use-has-mounted';
+import { toast } from '@hooks/use-toast';
 
 interface LikeCounterProps {
     postId: string;
@@ -18,35 +19,33 @@ const LikeCounter = ({ postId, currentUser, likes }: LikeCounterProps) => {
     const [isLiked, setIsLiked] = useState(currentUser.likedPosts?.includes(postId) || false);
     const [isDisliked, setIsDisliked] = useState(currentUser.dislikedPosts?.includes(postId) || false);
 
+    useEffect(() => {
+        setIsLiked(currentUser.likedPosts?.includes(postId) || false);
+        setIsDisliked(currentUser.dislikedPosts?.includes(postId) || false);
+    }, [currentUser, postId, likes]);
+
     if (!hasMounted) {
         return null
     }
 
-    const likeOrDislikePost = useCallback(async (liked: boolean) => {
+    const likeOrDislikePost = async (liked: boolean) => {
         try {
             await axios.put('/api/like_dislike_posts', {
                 blog_id: postId,
                 liked
             });
 
-            if (liked) {
-                setIsLiked(true);
-                setIsDisliked(false);
-                setLikeCount(likeCount + 1);
-            } else {
-                setIsLiked(false);
-                setIsDisliked(true);
-                setLikeCount(likeCount - 1);
-            }
+            setLikeCount(prevCount => liked ? prevCount + 1 : prevCount - 1);
+            setIsLiked(liked);
+            setIsDisliked(!liked);
         } catch (error) {
-            console.log(error);
+            toast({
+                title: 'Like or dislike failed',
+                description: 'Please try again later',
+                variant: 'destructive',
+            })
         }
-    }, [currentUser, postId, likeCount, postId]);
-
-    useEffect(() => {
-        setIsLiked(currentUser.likedPosts?.includes(postId) || false);
-        setIsDisliked(currentUser.dislikedPosts?.includes(postId) || false);
-    }, [currentUser, postId]);
+    };
 
 
     return (

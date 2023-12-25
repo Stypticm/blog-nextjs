@@ -9,6 +9,7 @@ import {
 } from './ui/DropdownMenu'
 import { UserAvatar } from './UserAvatar'
 import { useRouter } from 'next/navigation'
+import { useCallback } from 'react'
 
 interface UserAccountNavProps {
   user: {
@@ -31,6 +32,19 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
     router.push('/profile')
   }
 
+  const handleSignOutClick = useCallback(async () => {
+    try {
+      await signOut({
+        callbackUrl: '/',
+      })
+      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({ type: 'LOGOUT' });
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
 
   return (
     <DropdownMenu>
@@ -47,9 +61,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
           className='cursor-pointer'
           onSelect={(event) => {
             event.preventDefault()
-            signOut({
-              callbackUrl: `${window.location.origin}/`,
-            })
+            handleSignOutClick()
           }}>
           Sign out
         </DropdownMenuItem>

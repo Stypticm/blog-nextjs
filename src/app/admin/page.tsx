@@ -8,13 +8,12 @@ import React from 'react'
 const page = async () => {
     const session = await getServerSession(authOptions)
 
-    // if (session?.user?.email !== 'admin@localhost') {
-    //     return redirect('/blog')
-    // }
+    if (session?.user?.email !== 'misha@ya.ru') {
+        return redirect('/blog')
+    }
 
     return (
         <>
-            {/* <pre>{JSON.stringify(session)}</pre> */}
             <div className='flex flex-col items-center'>
                 <AdminPanel />
             </div>

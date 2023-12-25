@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 const Page = () => {
   return (
-    <div className='mt-2'>
+    <div className='mt-10'>
       <Link
         href='/'
         className={cn(

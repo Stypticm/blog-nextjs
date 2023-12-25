@@ -3,6 +3,7 @@
 import { useTheme } from 'next-themes'
 import { Icons } from './Icons'
 import useHasMounted from '@hooks/use-has-mounted'
+import React from 'react'
 
 const Themes = () => {
     const { theme, setTheme } = useTheme()
@@ -30,4 +31,4 @@ const Themes = () => {
     )
 }
 
-export default Themes
+export default React.memo(Themes)

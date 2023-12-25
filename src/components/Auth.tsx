@@ -19,7 +19,7 @@ const Auth = () => {
     'login' | 'register'
   >('login')
 
-  const toggleVAriant = useCallback(() => {
+  const toggleVariant = useCallback(() => {
     setVariant((currentVariant) =>
       currentVariant === 'login' ? 'register' : 'login'
     )
@@ -60,6 +60,7 @@ const Auth = () => {
     try {
       await signIn('github', {
         callbackUrl: '/blog',
+        redirect: true,
       })
     } catch (error) {
       console.error(error)
@@ -71,6 +72,7 @@ const Auth = () => {
     try {
       await signIn('google', {
         callbackUrl: '/blog',
+        redirect: true,
       })
     } catch (error) {
       console.error(error)
@@ -126,7 +128,7 @@ const Auth = () => {
             <FcGoogle size={30} />
           </div>
           <div
-            className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'
+            className='w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'
             onClick={() => signInGitHub()}>
             <FaGithub size={30} />
           </div>
@@ -136,7 +138,7 @@ const Auth = () => {
             ? 'First time using Blog ?'
             : 'Already have an account ?'}
           <span
-            onClick={toggleVAriant}
+            onClick={toggleVariant}
             className='text-white ml-1 hover:underline cursor-pointer'>
             {variant === 'login'
               ? 'Create an account'

@@ -13,6 +13,7 @@ import { fetchSelectedPostBySlug } from '@utils/postUtils'
 import { getCurrentUser } from '@utils/blog_user_helpers'
 import LikeCounter from '@components/LikeCounter'
 import axios from 'axios'
+import { toast } from '@hooks/use-toast'
 
 const formSchema = z.object({
     comment: z.string().min(10, {
@@ -54,7 +55,11 @@ const Page = ({
 
             }
         } catch (error) {
-            console.log(error)
+            toast({
+                title: 'Comment failed',
+                description: 'Please try again later',
+                variant: 'destructive',
+            })
         }
     }, [form, selectedPost, slug])
 

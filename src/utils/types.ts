@@ -9,8 +9,6 @@ export interface Post {
     comments: Comment[]
     email: string
     avatar: string
-    likedPosts: string[]
-    dislikedPosts: string[]
 }
 
 export type Comment = {

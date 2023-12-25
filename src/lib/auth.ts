@@ -1,4 +1,3 @@
-import { signIn } from 'next-auth/react';
 import GoogleProvider from 'next-auth/providers/google'
 import GithubProvider from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
@@ -10,9 +9,10 @@ import {
 } from 'next-auth'
 import { compare } from 'bcrypt'
 import { JWT } from 'next-auth/jwt'
-
 import clientPromise from '@lib/mongodb'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
+
+export const dynamic = "force-dynamic"
 
 export const authOptions: AuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -36,7 +36,7 @@ export const authOptions: AuthOptions = {
           likedPosts: [],
           dislikedPosts: [],
         }
-      }
+      },
     }),
     GithubProvider({
       name: 'Github',

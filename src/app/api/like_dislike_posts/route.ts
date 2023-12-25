@@ -48,7 +48,6 @@ export async function PUT(req: Request) {
             )
 
 
-
         } else {
             like_dislike = await db.collection('posts').findOneAndUpdate(
                 { _id: new ObjectId(blog_id) },

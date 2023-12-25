@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Icons } from './Icons'
-import { buttonVariants } from './ui/Button'
+import { Button, buttonVariants } from './ui/Button'
 import { authOptions } from '@lib/auth'
 import { getServerSession } from 'next-auth/next'
 import UserAccountNav from './UserAccountNav'
@@ -21,7 +21,7 @@ const Navbar = async () => {
           <Link href='/' className='flex gap-2'>
             <Icons.logo className='h-8 w-8 sm:h-6 sm:w-6' />
             <p>Blog</p>
-            
+
           </Link>
           <Themes />
         </div>
@@ -30,14 +30,14 @@ const Navbar = async () => {
         {session?.user ? (
           <div className='flex justify-center items-center gap-2'>
             <UserAccountNav user={session.user} />
-            <h1 className='text-sm font-bold bg-zinc-400 dark:bg-[#0d1117]'>
+            <h1 className='text-sm font-bold'>
               {session.user.name}
             </h1>
           </div>
         ) : (
-          <Link href='/auth' className={buttonVariants()}>
-            Sign In
-          </Link>
+            <Link href='/auth' className={buttonVariants()}>
+              Sign In
+            </Link>
         )}
       </div>
     </div>
