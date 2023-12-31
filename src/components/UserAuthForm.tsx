@@ -6,9 +6,7 @@ import { cn } from '@lib/utils'
 import { Icons } from './Icons'
 import { useToast } from '@hooks/use-toast'
 import { signIn } from 'next-auth/react'
-
-interface UserAuthFormProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
+import { UserAuthFormProps } from '@utils/types'
 
 const UserAuthForm: React.FC<UserAuthFormProps> = ({
   className,

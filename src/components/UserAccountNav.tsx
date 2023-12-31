@@ -10,15 +10,7 @@ import {
 import { UserAvatar } from './UserAvatar'
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
-
-interface UserAccountNavProps {
-  user: {
-    name?: string | null
-    image?: string | null,
-    email?: string | null,
-    role?: string | null
-  }
-}
+import { UserAccountNavProps } from '@utils/types'
 
 const UserAccountNav = ({ user }: UserAccountNavProps) => {
 

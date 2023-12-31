@@ -27,9 +27,38 @@ export interface User {
     dislikedPosts: string[],
 }
 
+export interface CustomModalProps {
+    isOpen: boolean;
+    closeModal: () => void;
+    id: string;
+    onDeletePost: (id: string) => void;
+}
+
 export interface SessionUser {
     email: string
     name: string
     image: string
     id: string
 }
+
+export interface LikeCounterProps {
+    postId: string;
+    currentUser: User;
+    likes: number;
+}
+
+export interface UserAccountNavProps {
+    user: {
+        name?: string | null
+        image?: string | null,
+        email?: string | null,
+        role?: string | null
+    }
+}
+
+export interface UserAvatarProps {
+    user: Pick<User, 'name' | 'image'>
+}
+
+export interface UserAuthFormProps
+    extends React.HTMLAttributes<HTMLDivElement> { }

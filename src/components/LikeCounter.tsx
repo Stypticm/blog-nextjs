@@ -1,16 +1,11 @@
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
-import { User } from '@utils/types';
+import { LikeCounterProps, User } from '@utils/types';
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 import useHasMounted from '@hooks/use-has-mounted';
 import { toast } from '@hooks/use-toast';
 
-interface LikeCounterProps {
-    postId: string;
-    currentUser: User;
-    likes: number;
-}
 
 const LikeCounter = ({ postId, currentUser, likes }: LikeCounterProps) => {
     const hasMounted = useHasMounted()

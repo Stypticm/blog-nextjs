@@ -4,7 +4,7 @@
 - Nextjs
 - Next-auth
 - Tailwindcss
-- Shadcnui
+- Shadcn_ui
 - Zod
 - Axios
 - DB MongoDB

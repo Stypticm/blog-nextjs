@@ -1,13 +1,9 @@
-import { User } from 'next-auth'
 import Image from 'next/image'
 import {
   Avatar,
   AvatarFallback,
 } from '@components/ui/Avatar'
-
-interface UserAvatarProps {
-  user: Pick<User, 'name' | 'image'>
-}
+import { UserAvatarProps } from '@utils/types'
 
 export function UserAvatar({
   user,

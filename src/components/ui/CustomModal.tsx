@@ -2,13 +2,7 @@ import { FC, useCallback } from 'react';
 import { Button } from './Button';
 import axios from 'axios';
 import { toast } from '@hooks/use-toast'
-
-interface CustomModalProps {
-    isOpen: boolean;
-    closeModal: () => void;
-    id: string;
-    onDeletePost: (id: string) => void; // Функция удаления поста
-}
+import { CustomModalProps } from '@utils/types';
 
 const CustomModal: FC<CustomModalProps> = ({ isOpen, closeModal, onDeletePost, id }) => {
 

@@ -5,17 +5,6 @@ import Modal from '@components/ui/Modal';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-declare global {
-    interface Window {
-        wb: {
-            messageSkipWaiting(): void;
-            register(): void;
-            addEventListener(name: string, callback: () => unknown): void;
-        }
-    }
-}
-
-
 const PwaUpdater = () => {
     const router = useRouter()
     const [isOpen, setIsOpen] = useState(false);
