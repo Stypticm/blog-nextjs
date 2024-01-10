@@ -16,7 +16,7 @@ const page = async () => {
   return (
     <>
       <div className='flex flex-col items-center'>
-          <Blog />
+        <Blog />
       </div>
     </>
   )

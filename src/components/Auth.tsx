@@ -81,7 +81,7 @@ const Auth = () => {
 
   return (
     <div className='flex justify-center'>
-      <div className='bg-black bg-opacity-70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full'>
+      <form onSubmit={variant === 'login' ? login : register} className='bg-black bg-opacity-70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full'>
         <h2 className='text-white text-2xl font-semibold mb-4'>
           {variant === 'login' ? 'Login' : 'Register'}
         </h2>
@@ -105,6 +105,7 @@ const Auth = () => {
             id='email'
             type='email'
             value={email}
+            autoComplete='email'
           />
           <Input
             placeholder='Password'
@@ -114,9 +115,12 @@ const Auth = () => {
             id='password'
             type='password'
             value={password}
+            autoComplete='current-password'
           />
         </div>
         <button
+          type='submit'
+          aria-label='Login'
           onClick={variant === 'login' ? login : register}
           className='bg-red-500 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'>
           {variant === 'login' ? 'Sign In' : 'Sign Up'}
@@ -124,12 +128,12 @@ const Auth = () => {
         <div className='flex flex-row items-center gap-4 mt-8 justify-center'>
           <div
             className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'
-            onClick={() => signInGoogle()}>
+            onClick={signInGoogle}>
             <FcGoogle size={30} />
           </div>
           <div
             className='w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'
-            onClick={() => signInGitHub()}>
+            onClick={signInGitHub}>
             <FaGithub size={30} />
           </div>
         </div>
@@ -145,7 +149,7 @@ const Auth = () => {
               : 'Login'}
           </span>
         </p>
-      </div>
+      </form>
     </div>
   )
 }

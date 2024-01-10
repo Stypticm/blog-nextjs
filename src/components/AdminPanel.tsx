@@ -91,6 +91,7 @@ const AdminPanel = () => {
                       <UserAvatar
                         user={{
                           image: blog.avatar || null,
+                          name: blog.author
                         }}
                       />
                     </p>

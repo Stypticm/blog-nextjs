@@ -43,8 +43,8 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
       <DropdownMenuTrigger>
         <UserAvatar
           user={{
-            name: user.name || null,
             image: user.image || null,
+            name: user.name || null,
           }}
         />
       </DropdownMenuTrigger>

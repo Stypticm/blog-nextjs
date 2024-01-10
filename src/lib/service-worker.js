@@ -3,7 +3,6 @@ let self;
 let CACHE_NAME = `my-pwa-cache-version-${Date.now()}`;
 let urlsToCache = [
     './',
-    '/blog',
     '/createpost',
     '/icon-192x192.png',
     '/icon-256x256.png',

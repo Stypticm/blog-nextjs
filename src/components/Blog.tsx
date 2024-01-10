@@ -11,12 +11,14 @@ import { getBlogs } from '@utils/blog_helpers'
 import { Post, User } from '@utils/types'
 import { MessageSquare } from 'lucide-react'
 import LikeCounter from './LikeCounter'
+import SearchBar from './SearchBar'
 
 const Blog = () => {
 
   const router = useRouter()
 
   const [blogs, setBlogs] = useState([] as Post[])
+  const [filterdPosts, setFilterdPosts] = useState([] as Post[])  
   const [currentUser, setCurrentUser] = useState({} as any)
 
   useEffect(() => {
@@ -34,35 +36,42 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const blogs = await getBlogs()
-        setBlogs(blogs as Post[])
+        const fetchedBlogs = await getBlogs() as Post[]
+        setBlogs(fetchedBlogs as Post[])
+        setFilterdPosts(fetchedBlogs as Post[])
       } catch (error) {
         console.error(error)
       }
     }
     fetchBlogs()
-  }, [getBlogs])
+  }, [])
 
   return (
     <div className='relative'>
-      <div className='flex items-center justify-center text-center pt-5'>
-        <Button aria-label='Create Post' variant='default' size='lg' className='m-4' onClick={() => {
-          router.push('/createpost')
-        }}>
-          Create Post
-        </Button>
+      <div className='flex items-center justify-around text-center pt-5'>
+        <section>
+          <Button aria-label='Create Post' variant='default' size='lg' className='m-4' onClick={() => {
+            router.push('/createpost')
+          }}>
+            Create Post
+          </Button>
+        </section>
+        <section>
+          <SearchBar setFilteredBlogs={setFilterdPosts} currentBlogs={blogs}/>
+        </section>
       </div>
+
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
         {
-          blogs === undefined ? (
+          filterdPosts === undefined ? (
             <p className='text-gray-500'>Can't get access to Mongo data base</p>
           ) : (
-            blogs.length === 0 ? (
+            filterdPosts.length === 0 ? (
               <p className='text-gray-500'>
                 No posts yet
               </p>
             ) : (
-              blogs.map((blog: Post) => (
+              filterdPosts.map((blog: Post) => (
                 <div
                   className='shadow-2xl m-2 p-2 rounded-lg bg-white grid grid-cols-1 text-center space-y-4 cursor-pointer h-full'
                   key={blog._id}>
@@ -88,6 +97,7 @@ const Blog = () => {
                       <UserAvatar
                         user={{
                           image: blog.avatar || null,
+                          name: blog.author
                         }}
                       />
                     </p>

@@ -1,6 +1,8 @@
 const runtimeCaching = require("next-pwa/cache");
 const path = require("path");
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 const nextConfig = {
   images: {
     domains: ['avatars.githubusercontent.com'],
@@ -25,15 +27,17 @@ const nextConfig = {
   },
 }
 
-const withPWA = require('@ducanh2912/next-pwa').default({
-  dest: "public",
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === "development",
-  sw: "service-worker.js",
-  customWorkerSrc: path.resolve(".src/lib/service-worker.js"),
-  runtimeCaching
-})
+const withPWA = isDevelopment
+  ? (config) => config
+  : require('@ducanh2912/next-pwa').default({
+    dest: "public",
+    register: true,
+    skipWaiting: true,
+    disable: isDevelopment,
+    sw: "service-worker.js",
+    customWorkerSrc: path.resolve(".src/lib/service-worker.js"),
+    runtimeCaching
+  })
 
 
 module.exports = withPWA(nextConfig)

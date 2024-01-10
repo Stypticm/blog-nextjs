@@ -19,9 +19,9 @@ export type Comment = {
 
 export interface User {
     email: string
-    name: string
+    name: string | null
     hashedPassword: string
-    image: '',
+    image: string | null,
     emailVerified: Date,
     likedPosts: string[],
     dislikedPosts: string[],
@@ -62,3 +62,10 @@ export interface UserAvatarProps {
 
 export interface UserAuthFormProps
     extends React.HTMLAttributes<HTMLDivElement> { }
+
+export type GetFilteredBlogs = React.Dispatch<React.SetStateAction<Post[]>>;
+
+export interface SearchBarProps {
+    setFilteredBlogs: (blogs: Post[]) => void
+    currentBlogs: Post[]
+}
