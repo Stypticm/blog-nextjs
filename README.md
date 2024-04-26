@@ -1,11 +1,13 @@
-# Nextjs practice "Blog"
+## Nextjs practice "Blog"
 
-## Using:
+# Used
+```bash
 - Nextjs
 - Next-auth
 - Tailwindcss
 - Shadcn_ui
 - Zod
 - Axios
-- DB MongoDB
+- MongoDB
 - PWA
+```
